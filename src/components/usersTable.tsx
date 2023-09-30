@@ -1,5 +1,5 @@
 // UsersTable.tsx
-import React, { useEffect } from 'react';
+import React, { ReactNode, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import {
   Box, Paper, Table, TableBody, TableCell, TableContainer,
@@ -7,6 +7,8 @@ import {
 } from '@mui/material';
 import { AppDispatch, RootState } from '../store/store';
 import { fetchUserAsync } from '../features/userSlice';
+import { tableHeadList } from '../data';
+
 
 const UsersTable: React.FC = () => {
   const dispatch = useDispatch<AppDispatch>();
@@ -21,20 +23,17 @@ const UsersTable: React.FC = () => {
   }, [status, dispatch]);
 
   return (
-    <Box sx={{ width: '70%', }}>
-      <Paper sx={{ width: '100%', mb: 2, mx:5 }}>
+    <>
+    <Box sx={{ width: '100%'}}>
+      <Paper sx={{ width: '100%', mb: 2}}>
         <TableContainer sx={{maxHeight: 600}}>
         <Table stickyHeader aria-label="sticky table">
-            <TableHead className='bg-stone-300'>
+            <TableHead className='!bg-[#eae8e4] !shadow-md !shadow-stone-200'>
               <TableRow style={{fontWeight: 'bold'}}>
-                <TableCell>Image</TableCell>
-                <TableCell>First Name</TableCell>
-                <TableCell>Last Name</TableCell>
-                <TableCell>Age</TableCell>
-                <TableCell>Gender</TableCell>
-                <TableCell>Email</TableCell>
-                <TableCell>Phone</TableCell>
-                <TableCell>Birth Date</TableCell>
+                {tableHeadList.map((head) => (
+                    <TableCell className='!bg-[#f4f3f1] !font-bold !text-emerald-800 !border-emerald-700'>{head}</TableCell>
+                ))
+                }
               </TableRow>
             </TableHead>
             <TableBody>
@@ -53,11 +52,9 @@ const UsersTable: React.FC = () => {
             </TableBody>
           </Table>
         </TableContainer>
-        {/* <TablePaginationActions
-          // ...Pagination Ayarları
-        /> */}
       </Paper>
     </Box>
+    </>
   );
 };
 

@@ -1,6 +1,6 @@
 import * as React from 'react';
 import AppBar from '@mui/material/AppBar';
-import Box from '@mui/material/Box';
+import {Box} from '@mui/material';
 import Toolbar from '@mui/material/Toolbar';
 import IconButton from '@mui/material/IconButton';
 import Typography from '@mui/material/Typography';
@@ -15,9 +15,13 @@ import { useDispatch} from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { logout } from '../features/loginSlice';
 
-const pages = ['Products', 'Todos'];
+interface Props {
+  setActiveItem?: (item: string) => void
+}
 
-function Navbar() {
+const pages = ['User List', 'Todos'];
+
+export const Navbar:React.FC<Props> = ({setActiveItem}) => {
   const [anchorElNav, setAnchorElNav] = React.useState<null | HTMLElement>(null);
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -40,7 +44,7 @@ function Navbar() {
     <AppBar position="static" color='default' style={{boxShadow: 'none', background: '#f4f3f1'}}>
       <Container maxWidth="xl" className='py-2'>
         <Toolbar disableGutters>
-        <div className="w-48 mt-1 mx-auto flex justify-center mr-8">
+        <div className="w-48 mt-1 mx-auto flex justify-center mr-8" onClick={() => setActiveItem && setActiveItem('Welcome')}>
         <img src={logo} alt="Logo" className="bg-transparent w-full bg-contain" />
         </div>
 
@@ -74,7 +78,12 @@ function Navbar() {
               }}
             >
               {pages.map((page) => (
-                <MenuItem key={page} onClick={handleCloseNavMenu} >
+                <MenuItem 
+                key={page} 
+                onClick={() => {
+                  setActiveItem && setActiveItem(page);
+                  handleCloseNavMenu();
+                }} >
                   <Typography textAlign="center">{page}</Typography>
                 </MenuItem>
               ))}
@@ -84,7 +93,10 @@ function Navbar() {
             {pages.map((page) => (
               <Button
                 key={page}
-                onClick={handleCloseNavMenu}
+                onClick={() => {
+                  setActiveItem && setActiveItem(page);
+                  handleCloseNavMenu();
+                }}
                 sx={{ mx:2, my: 2, color: '#292929', display: 'block', fontFamily:'sans-serif', fontSize:'16px', borderBottom: '1px solid gray', borderRadius: '0px'}}
               >
                 {page}
@@ -102,4 +114,3 @@ function Navbar() {
     </AppBar>
   );
 }
-export default Navbar;
