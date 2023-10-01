@@ -1,3 +1,3 @@
 export const generateUserId = () => {
-    return Math.floor(Math.random() * 120) + 44; 
+    return Math.floor(Math.random() * 80) + 44; 
 }

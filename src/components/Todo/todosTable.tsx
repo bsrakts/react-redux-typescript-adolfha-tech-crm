@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Button, Container, IconButton, Modal, Switch, TextField } from '@mui/material';
-import { AppDispatch, RootState } from '../store/store';
-import { addTodoAsync, deleteTodoAsync, fetchTodosAsync, setTodoFilter, setUserIdFilter, updateTodoAsync } from '../features/todosSlice';
+import { AppDispatch, RootState } from '../../store/store';
+import { addTodoAsync, deleteTodoAsync, fetchTodosAsync, setTodoFilter, setUserIdFilter, updateTodoAsync } from '../../features/todosSlice';
 import DeleteIcon from '@mui/icons-material/Delete';
-import { Todo } from '../type';
-import { generateUserId } from '../helper/generateUserId';
-import PageTitle from './pageTitle';
+import { Todo } from '../../type';
+import { generateUserId } from '../../helper/generateUserId';
+import PageTitle from '../pageTitle';
 
 const TodosTable: React.FC = () => {
     const dispatch = useDispatch<AppDispatch>();

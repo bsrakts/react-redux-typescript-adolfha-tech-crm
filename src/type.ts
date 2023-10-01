@@ -4,3 +4,10 @@ export interface Todo {
     todo: string;
     completed: boolean;
 }
+
+export interface Product {
+    id: number;
+    title: string;
+    stock: number;
+    category: string;
+}

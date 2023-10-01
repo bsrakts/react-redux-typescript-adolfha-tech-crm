@@ -5,9 +5,9 @@ import {
   Box, Paper, Table, TableBody, TableCell, TableContainer,
   TableHead, TableRow, TablePagination, Avatar
 } from '@mui/material';
-import { AppDispatch, RootState } from '../store/store';
-import { fetchUserAsync } from '../features/userSlice';
-import { tableHeadList } from '../data';
+import { AppDispatch, RootState } from '../../store/store';
+import { fetchUserAsync } from '../../features/userSlice';
+import { tableHeadList } from '../../data';
 
 
 const UsersTable: React.FC = () => {

@@ -13,7 +13,7 @@ import logo from '../assets/ADOLFHA.png';
 import ExitToAppIcon from '@mui/icons-material/ExitToApp';
 import { useDispatch} from 'react-redux';
 import { useNavigate } from 'react-router-dom';
-import { logout } from '../features/loginSlice';
+import { logout } from '../../features/loginSlice';
 
 interface Props {
   setActiveItem?: (item: string) => void
