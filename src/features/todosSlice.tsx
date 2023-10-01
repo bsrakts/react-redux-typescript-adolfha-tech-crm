@@ -1,14 +1,7 @@
 import { PayloadAction, createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { AxiosError } from "axios";
 import { addTodo, deleteTodo, fetchTodos, updateTodo } from "../api/api";
-
-
-interface Todo {
-    id: number;
-    userId: number;
-    todo: string;
-    completed: boolean;
-}
+import { Todo } from "../type";
 
 interface TodosState {
     todos: Todo[];
@@ -40,7 +33,7 @@ export const fetchTodosAsync = createAsyncThunk('todos/fetchTodos', async () => 
 export const updateTodoAsync = createAsyncThunk('todos/updateTodo', 
     async (params: { id: number; completed: boolean; }, { rejectWithValue }) => {
         try {
-            const response = await updateTodo(params.id, { completed: params.completed });
+            const response = await updateTodo(params.id, { completed: params.completed })
             return { id: params.id, completed: params.completed };
         } catch (error: AxiosError | any) {
             return rejectWithValue(error.response.data);
@@ -57,15 +50,15 @@ export const deleteTodoAsync = createAsyncThunk('todos/deleteTodo',
         }
     });
 
-export const addTodoAsync = createAsyncThunk('todos/addTodo',
-    async (newTodo: Omit<Todo, 'id'>, { rejectWithValue }) => {
+    export const addTodoAsync = createAsyncThunk('todos/addTodo', async (newTodo: Omit<Todo, 'id'>, { rejectWithValue }) => {
         try {
-            const response = await addTodo(newTodo);
-            return response?.data?.todo;
+          const response = await addTodo(newTodo);
+          if (response.data) return response.data;
+          throw new Error('Unable to retrieve the data from the response');
         } catch (error: AxiosError | any) {
-            return rejectWithValue(error.response.data);
+          return rejectWithValue(error.message);
         }
-    });
+      });
 
 const todosSlice = createSlice({
     name: 'todos',
@@ -103,9 +96,16 @@ const todosSlice = createSlice({
             .addCase(deleteTodoAsync.fulfilled, (state, action) => {
                 state.todos = state.todos.filter(todo => todo.id !== action.payload);
             })
+            .addCase(addTodoAsync.pending, (state) => {
+                state.status = 'loading';
+            })
             .addCase(addTodoAsync.fulfilled, (state, action) => {
-                state.todos.push(action.payload);
-            });
+                state.todos.unshift(action.payload);
+              })
+            .addCase(addTodoAsync.rejected, (state, action) => {
+                state.status = 'failed'
+                state.error = action.error.message;
+            })
     },
 });
 

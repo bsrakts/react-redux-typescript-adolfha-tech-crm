@@ -4,8 +4,8 @@ import { useNavigate } from 'react-router-dom';
 import { login } from '../../features/loginSlice';
 import { RootState } from '../../store/store';
 import { Button, TextField } from '@mui/material';
-import backgrounds from '.../assets/login-backgrounds.jpg';
-import logo from '../assets/ADOLFHA.png';
+import backgrounds from '../../assets/login-backgrounds.jpg';
+import logo from '../../assets/ADOLFHA.png';
 
 const LoginForm: React.FC = () => {
   const [formValues, setFormValues] = useState({
