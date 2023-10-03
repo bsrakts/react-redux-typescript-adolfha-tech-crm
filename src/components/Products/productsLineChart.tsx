@@ -2,122 +2,27 @@ import React, { useEffect } from "react"
 import ReactApexChart from "react-apexcharts"
 import { useDispatch, useSelector } from "react-redux"
 import { AppDispatch, RootState } from "../../store/store"
-import { fetchProductsByLaptopAsync } from "../../features/productSlice"
+import { apexLineConfig } from "../../data"
+import { SeriesType } from "../../type"
+
+interface LineProps {
+    series: SeriesType[];
+    categories: string[];
+    stockValue: number[];
+    text?: string;
+}
 
 
-export const ProductsLineChart: React.FC = () => {
-    const productsData = useSelector((state: RootState) => state.products.productsLaptop)
-    const dispatch = useDispatch<AppDispatch>();
-
-    useEffect(() => {
-        dispatch(fetchProductsByLaptopAsync());
-    }, [dispatch]);
-
-    console.log(productsData);
-
-    const stockValue = productsData?.map((stock) => stock?.stock)
-
-    const series = [{
-        name: 'Stock',
-        data: productsData.map(product => product.stock)
-    }];
-
-    const categories = productsData.map(product => product.title);
-
-
-    const apexChartConfig = {
-        series,
-        options: {
-            chart: {
-                height: 350,
-                type: 'line' as const,
-                dropShadow: {
-                    enabled: true,
-                    color: '#000',
-                    top: 10,
-                    left: 7,
-                    blur: 10,
-                    opacity: 0.1,
-                },
-                toolbar: {
-                    show: true,
-                    download: true,
-                },
-            },
-            title: {
-                text: "Laptop Stock",
-                align: 'center' as const,
-                style: {
-                    fontSize: '16px',
-                    fontWeight: 'bold',
-                    fontFamily: "Helvetica",
-                    color: '#D602D4'
-                },
-            },
-            colors: ['#D602D4'],
-            dataLabels: {
-                enabled: true,
-            },
-            stroke: {
-                curve: 'smooth' as const,
-            },
-            grid: {
-                borderColor: '#e7e7e7',
-                row: {
-                    colors: ['#f3f3f3', 'transparent'],
-                    opacity: 0.1
-                },
-            },
-            markers: {
-                size: 1,
-            },
-            xaxis: {
-                categories: categories,
-                title: {
-                    text: 'Category',
-                },
-                type: 'category' as const,
-            },
-            yaxis: {
-                title: {
-                    text: 'Aktivite',
-                },
-                min: Math.min(...stockValue) > 5 ? Math.min(...stockValue) - 5 : Math.min(...stockValue),
-                max: Math.max(...stockValue) + 5,
-                forceNiceScale: true,
-                tickAmount: 5
-            },
-            tooltip: {
-                style: {
-                    fontSize: '13px',
-                },
-                y: {
-                    formatter: function (val: any) {
-                        return val + ''
-                    },
-                },
-                x: {
-                    formatter: function () {
-                        return ''
-                    },
-                },
-            },
-            legend: {
-                position: 'top' as const,
-                horizontalAlign: 'right' as const,
-                floating: true,
-                offsetY: -25,
-                offsetX: -5,
-            },
-        },
-    }
+export const ProductsLineChart: React.FC<LineProps> = ({series,categories,stockValue,text}) => {
+    const config = apexLineConfig(series,categories, stockValue)
 
 
     return (
-        <div className="p-5 bg-white shadow">
+        <div id='chart' className='border border-stone-200 px-2 md:px-12 py-8 rounded-2xl mb-20'>
+            <h1 className='text-[#D602D4] font-bold text-center w-2/4 md:w-2/12 text-xl border-b border-[#D602D4] mb-4'>{text}</h1>
             <ReactApexChart
-                series={apexChartConfig?.series}
-                options={apexChartConfig?.options}
+                series={config?.series}
+                options={config?.options}
                 type="line"
                 height={400}
             />

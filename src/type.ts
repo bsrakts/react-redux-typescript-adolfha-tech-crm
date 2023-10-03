@@ -11,3 +11,8 @@ export interface Product {
     stock: number;
     category: string;
 }
+
+export interface SeriesType {
+    name: string;
+    data: number[];
+}

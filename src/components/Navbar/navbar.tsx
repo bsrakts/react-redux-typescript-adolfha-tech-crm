@@ -9,7 +9,7 @@ import MenuIcon from '@mui/icons-material/Menu';
 import Container from '@mui/material/Container';
 import Button from '@mui/material/Button';
 import MenuItem from '@mui/material/MenuItem';
-import logo from '../assets/ADOLFHA.png';
+import logo from '../../assets/ADOLFHA.png';
 import ExitToAppIcon from '@mui/icons-material/ExitToApp';
 import { useDispatch} from 'react-redux';
 import { useNavigate } from 'react-router-dom';
@@ -41,10 +41,10 @@ export const Navbar:React.FC<Props> = ({setActiveItem}) => {
 
 
   return (
-    <AppBar position="static" color='default' style={{boxShadow: 'none', background: '#f4f3f1'}}>
+    <AppBar position="sticky" color='default' style={{boxShadow: 'none', background: '#f4f3f1'}}>
       <Container maxWidth="xl" className='py-2'>
         <Toolbar disableGutters>
-        <div className="w-48 mt-1 mx-auto flex justify-center mr-8" onClick={() => setActiveItem && setActiveItem('Welcome')}>
+        <div className="w-48 mt-1 mx-auto flex justify-center mr-8" onClick={() => setActiveItem && setActiveItem('Welcome To Adolfha Tech CRM Dashboard')}>
         <img src={logo} alt="Logo" className="bg-transparent w-full bg-contain" />
         </div>
 

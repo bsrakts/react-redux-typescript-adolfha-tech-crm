@@ -20,7 +20,7 @@ const initialState: ProductState = {
     error: null
 }
 
-export const fetchProductsByLaptopAsync = createAsyncThunk('products/fetchProduct', async () => {
+export const fetchProductsByLaptopAsync = createAsyncThunk('products/fetchProductByLaptop', async () => {
     try {
         const response = await fetchProductByLaptops();
         return response?.data?.products;
@@ -29,7 +29,7 @@ export const fetchProductsByLaptopAsync = createAsyncThunk('products/fetchProduc
     }
 });
 
-export const fetchProductsBySmartPhonesAsync = createAsyncThunk('products/fetchProduct', async () => {
+export const fetchProductsBySmartPhonesAsync = createAsyncThunk('products/fetchProductBySmartPhone', async () => {
     try {
         const response = await fetchProductBySmartPhones();
         return response?.data?.products;
@@ -38,7 +38,7 @@ export const fetchProductsBySmartPhonesAsync = createAsyncThunk('products/fetchP
     }
 });
 
-export const fetchProductsByAutomotiveAsync = createAsyncThunk('products/fetchProduct', async () => {
+export const fetchProductsByAutomotiveAsync = createAsyncThunk('products/fetchProductByAutomotive', async () => {
     try {
         const response = await fetchProductByAutomotive();
         return response?.data?.products;
@@ -61,6 +61,28 @@ const productSlice = createSlice({
                 state.productsLaptop = action.payload || [];
             })
             .addCase(fetchProductsByLaptopAsync.rejected, (state, action) => {
+                state.status = 'failed';
+                state.error = action.error.message;
+            })
+            .addCase(fetchProductsBySmartPhonesAsync.pending, (state) => {
+                state.status = 'loading';
+            })
+            .addCase(fetchProductsBySmartPhonesAsync.fulfilled, (state, action) => {
+                state.status = 'succeeded';
+                state.productsSmartphones = action.payload || [];
+            })
+            .addCase(fetchProductsBySmartPhonesAsync.rejected, (state, action) => {
+                state.status = 'failed';
+                state.error = action.error.message;
+            })
+            .addCase(fetchProductsByAutomotiveAsync.pending, (state) => {
+                state.status = 'loading';
+            })
+            .addCase(fetchProductsByAutomotiveAsync.fulfilled, (state, action) => {
+                state.status = 'succeeded';
+                state.productsAutomotive = action.payload || [];
+            })
+            .addCase(fetchProductsByAutomotiveAsync.rejected, (state, action) => {
                 state.status = 'failed';
                 state.error = action.error.message;
             })
